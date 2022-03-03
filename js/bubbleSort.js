@@ -1,33 +1,29 @@
-async function bubbleSort() {
+const bubbleSort = async function () {
   console.log("Clicked bubble sort button");
-  bubbleSortButton.classList.add("button-clicked");
 
-  if (bars.length === 0) {
-    return;
-  }
+  if (bars.length === 0) return;
 
-  enableBtns(false);
+  enableBtns(false, "btn-bubble-sort");
 
   for (let i = 0; i < bars.length; i++) {
     for (let j = 0; j < bars.length - i - 1; j++) {
       if (bars[j].offsetHeight > bars[j + 1].offsetHeight) {
-        bars[j].style.background = blue;
-        bars[j + 1].style.background = blue;
+        bars[j].style.background = swappingBlue;
+        bars[j + 1].style.background = swappingBlue;
 
-        await waitForIt(delay);
+        await wait(delay);
 
         swap(bars[j], bars[j + 1]);
 
-        bars[j].style.background = white;
-        bars[j + 1].style.background = white;
+        bars[j].style.background = defaultBarColor;
+        bars[j + 1].style.background = defaultBarColor;
       }
     }
-    bars[bars.length - 1 - i].style.background = green;
+    bars[bars.length - 1 - i].style.background = atRightPosGreen;
   }
 
-  bubbleSortButton.classList.remove("button-clicked");
-  enableBtns(true);
-}
+  enableBtns(true, "btn-bubble-sort");
+};
 
-let bubbleSortButton = document.getElementById("bubbleBtn");
-bubbleSortButton.addEventListener("click", bubbleSort);
+const bubbleSortBtn = document.getElementById("btn-bubble-sort");
+bubbleSortBtn.addEventListener("click", bubbleSort);

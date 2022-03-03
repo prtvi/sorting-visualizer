@@ -1,65 +1,67 @@
 async function partition(start, end) {
-  pivotIndex = start;
-  pivot = bars[pivotIndex];
+    pivotIndex = start;
+    pivot = bars[pivotIndex];
 
-  let i = start;
-  let j = end;
+    let i = start;
+    let j = end;
+    
+    // bars[pivotIndex].style.background = red;
+    
+    bars[i].style.background = blue;
+    bars[j].style.background = blue;
 
-  // bars[pivotIndex].style.background = red;
+    while (i < j) {
+        while (i < bars.length && bars[i] <= pivot) {
+            i++;
+        }
+        while (j < bars.length && bars[j] > pivot) {
+            j--;
+        }
 
-  bars[i].style.background = blue;
-  bars[j].style.background = blue;
+        if (i < j) {
+            // let temp = bars[i];
+            // bars[i] = bars[j];
+            // bars[j] = temp;
+            bars[i].style.background = blue;
+            bars[j].style.background = blue;
 
-  while (i < j) {
-    while (i < bars.length && bars[i] <= pivot) {
-      i++;
+            await waitForIt(delay);
+
+            swap(bars[i], bars[j]);
+
+            bars[i].style.background = white;
+            bars[j].style.background = white;
+
+        }
     }
-    while (j < bars.length && bars[j] > pivot) {
-      j--;
-    }
 
-    if (i < j) {
-      // let temp = bars[i];
-      // bars[i] = bars[j];
-      // bars[j] = temp;
-      bars[i].style.background = blue;
-      bars[j].style.background = blue;
+    let temp = bars[j];
+    bars[j] = bars[pivotIndex];
+    bars[pivotIndex] = temp;
 
-      await waitForIt(delay);
-
-      swap(bars[i], bars[j]);
-
-      bars[i].style.background = white;
-      bars[j].style.background = white;
-    }
-  }
-
-  let temp = bars[j];
-  bars[j] = bars[pivotIndex];
-  bars[pivotIndex] = temp;
-
-  return j;
+    return j;
 }
+
 
 function quickSort(start, end) {
-  if (start < end) {
-    let p = partition(start, end);
+    if (start < end) {
+        let p = partition(start, end);
 
-    quickSort(start, p - 1);
-    quickSort(p + 1, end);
-  }
+        quickSort(start, p - 1);
+        quickSort(p + 1, end);
+    }
 }
 
-function qSort() {
-  console.log("Clicked quick sort button");
+function qSort(){
+    console.log("Clicked quick sort button");
 
-  quickSortButton.classList.add("button-clicked");
-  enableBtns(false);
+    quickSortButton.classList.add("button-clicked");
+    enableBtns(false);
 
-  quickSort(0, bars.length - 1);
+    quickSort(0, bars.length -1);
 
-  quickSortButton.classList.remove("button-clicked");
-  enableBtns(true);
+    quickSortButton.classList.remove("button-clicked");
+    enableBtns(true);
 }
 
 // let arr = [4, 2, 2, 4, 6, 5, 3, 0, 9, -1, 20, 14];
@@ -69,3 +71,4 @@ function qSort() {
 
 let quickSortButton = document.getElementById("quickBtn");
 quickSortButton.addEventListener("click", qSort);
+

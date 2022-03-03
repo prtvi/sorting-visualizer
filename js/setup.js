@@ -1,79 +1,93 @@
+"use strict";
+
+const barContainer = document.getElementById("bar-container");
+const newArrayBtn = document.getElementById("btn-new-arr");
+const arrSizeSlider = document.querySelector("#arr-size-slider");
+const delaySlider = document.querySelector("#delay-slider");
+
+// variables
 let bars = [];
-let white = "#ffffff"; // white -> unsorted
-let red = "#ff0000"; // red -> traversal
-let green = "#00ff00"; // green -> at right position after sorting
-let blue = "#0000ff"; // blue -> swap
 
-// delay in ms
-let delay = 100;
+// runtime bar colors
+// {operation}{color}
+const defaultBarColor = "#bbb";
+const traverseRed = "#ff0000";
+const swappingBlue = "#0000ff";
+const atRightPosGreen = "#00ff00";
 
-const setup = () => {
-  let barCount = 0;
-  let barWidth = 8;
+// delay in seconds
+let delay = 0.1;
 
-  let allBars = document.getElementById("all-bars");
-  allBars.innerHTML = "";
+// Bars
+const maxBarHeight = 450;
+const minBarHeight = 10;
 
-  let width = window.innerWidth;
+const setup = function (barCount) {
+  const barWidth = 5;
 
-  for (let i = 0; i < (width * 0.8) / 10 - 1; i++) {
-    let bar = document.createElement("div");
+  barContainer.innerHTML = "";
 
-    bar.style.height = String(Math.floor(Math.random() * 450 + 10)) + "px";
-    bar.style.width = `${String(barWidth)}px`;
+  // const width = window.innerWidth;
+
+  for (let i = 0; i < barCount; i++) {
+    const bar = document.createElement("div");
+
+    bar.style.height = `${Math.floor(
+      Math.random() * maxBarHeight + minBarHeight
+    )}px`;
+
+    bar.style.width = `${barWidth}px`;
+
     bar.classList.add("bar");
-
-    allBars.appendChild(bar);
-    barCount += 1;
+    barContainer.appendChild(bar);
   }
 
-  bars = Array.from(allBars.children);
-
-  console.log("Clicked new array button,", "barCount = ", barCount);
+  bars = Array.from(barContainer.children);
 };
 
-const onResize = () => {
-  window.location.href = window.location.href;
-};
+// const onResize = function () {
+//   window.location.href = window.location.href;
+// };
 
-const enableBtns = (enable = true) => {
-  let allBtns = document.getElementsByClassName("sortBtn");
-  allBtns = Array.from(allBtns);
+const enableBtns = function (enable, exceptBtnWithId) {
+  const btns = document.querySelectorAll(".btn");
+  const clickedBtn = document.getElementById(exceptBtnWithId);
 
   if (enable) {
-    allBtns.forEach((element) => {
-      element.disabled = false;
-      element.classList.remove("button-disabled");
+    btns.forEach((btn) => {
+      btn.disabled = false;
+      btn.classList.remove("btn-disabled");
     });
+
+    clickedBtn.classList.remove("btn-clicked");
   } else {
-    allBtns.forEach((element) => {
-      element.disabled = true;
-      element.classList.add("button-disabled");
+    btns.forEach((btn) => {
+      btn.disabled = true;
+      btn.classList.add("btn-disabled");
     });
+
+    clickedBtn.classList.remove("btn-disabled");
+    clickedBtn.classList.add("btn-clicked");
   }
 };
 
-const swap = (el1, el2) => {
-  const style1 = window.getComputedStyle(el1);
-  const style2 = window.getComputedStyle(el2);
+const swap = function (el1, el2) {
+  const transform1 = window.getComputedStyle(el1).getPropertyValue("height");
+  const transform2 = window.getComputedStyle(el2).getPropertyValue("height");
 
-  const transform1 = style1.getPropertyValue("height");
-  const transform2 = style2.getPropertyValue("height");
-
-  el1.style.height = transform2;
-  el2.style.height = transform1;
+  [el1.style.height, el2.style.height] = [transform2, transform1];
 };
 
-function waitForIt(millisec) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve("");
-    }, millisec);
-  });
-}
+const wait = function (seconds) {
+  return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+};
 
-let newArrayButton = document.getElementById("newArrayBtn");
-newArrayButton.addEventListener("click", setup);
+newArrayBtn.addEventListener("click", setup);
 
-window.addEventListener("resize", onResize);
-setup();
+// window.addEventListener("resize", onResize);
+
+setup(60);
+
+arrSizeSlider.addEventListener("change", () => setup(arrSizeSlider.value));
+
+delaySlider.addEventListener("change", () => (delay = delaySlider.value));
