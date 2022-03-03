@@ -1,7 +1,7 @@
 const selectionSort = async function () {
-  console.log("Clicked selection sort button");
+  // console.log("Begin selection sort");
 
-  if (bars.length === 0) return;
+  if (bars.length === 0 || sorted) return;
 
   enableBtns(false, "btn-selection-sort");
 
@@ -36,6 +36,9 @@ const selectionSort = async function () {
   bars[bars.length - 1].style.background = atRightPosGreen;
 
   enableBtns(true, "btn-selection-sort");
+  sorted = true;
+
+  // console.log("End selection sort");
 };
 
 const selectionSortBtn = document.getElementById("btn-selection-sort");

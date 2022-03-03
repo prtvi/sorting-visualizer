@@ -5,29 +5,28 @@ const newArrayBtn = document.getElementById("btn-new-arr");
 const arrSizeSlider = document.querySelector("#arr-size-slider");
 const delaySlider = document.querySelector("#delay-slider");
 
-// variables
 let bars = [];
+let sorted = false;
 
 // runtime bar colors
 // {operation}{color}
 const defaultBarColor = "#bbb";
-const traverseRed = "#ff0000";
 const swappingBlue = "#0000ff";
+const traverseRed = "#ff0000";
 const atRightPosGreen = "#00ff00";
 
 // delay in seconds
 let delay = 0.1;
 
 // Bars
+const defaultArrSize = 70;
 const maxBarHeight = 450;
 const minBarHeight = 10;
+const barWidth = 5;
 
 const setup = function (barCount) {
-  const barWidth = 5;
-
+  sorted = false;
   barContainer.innerHTML = "";
-
-  // const width = window.innerWidth;
 
   for (let i = 0; i < barCount; i++) {
     const bar = document.createElement("div");
@@ -45,10 +44,6 @@ const setup = function (barCount) {
   bars = Array.from(barContainer.children);
 };
 
-// const onResize = function () {
-//   window.location.href = window.location.href;
-// };
-
 const enableBtns = function (enable, exceptBtnWithId) {
   const btns = document.querySelectorAll(".btn");
   const clickedBtn = document.getElementById(exceptBtnWithId);
@@ -59,6 +54,7 @@ const enableBtns = function (enable, exceptBtnWithId) {
       btn.classList.remove("btn-disabled");
     });
 
+    arrSizeSlider.disabled = false;
     clickedBtn.classList.remove("btn-clicked");
   } else {
     btns.forEach((btn) => {
@@ -66,6 +62,7 @@ const enableBtns = function (enable, exceptBtnWithId) {
       btn.classList.add("btn-disabled");
     });
 
+    arrSizeSlider.disabled = true;
     clickedBtn.classList.remove("btn-disabled");
     clickedBtn.classList.add("btn-clicked");
   }
@@ -82,12 +79,13 @@ const wait = function (seconds) {
   return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 };
 
-newArrayBtn.addEventListener("click", setup);
+// EVENT LISTENERS
 
-// window.addEventListener("resize", onResize);
-
-setup(60);
+newArrayBtn.addEventListener("click", () => setup(arrSizeSlider.value));
 
 arrSizeSlider.addEventListener("change", () => setup(arrSizeSlider.value));
 
 delaySlider.addEventListener("change", () => (delay = delaySlider.value));
+
+// main
+setup(defaultArrSize);

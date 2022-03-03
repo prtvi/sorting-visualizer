@@ -1,7 +1,7 @@
 const bubbleSort = async function () {
-  console.log("Clicked bubble sort button");
+  // console.log("Begin bubble sort");
 
-  if (bars.length === 0) return;
+  if (bars.length === 0 || sorted) return;
 
   enableBtns(false, "btn-bubble-sort");
 
@@ -23,6 +23,9 @@ const bubbleSort = async function () {
   }
 
   enableBtns(true, "btn-bubble-sort");
+  sorted = true;
+
+  // console.log("End bubble sort");
 };
 
 const bubbleSortBtn = document.getElementById("btn-bubble-sort");

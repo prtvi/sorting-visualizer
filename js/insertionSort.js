@@ -1,7 +1,7 @@
 const insertionSort = async function () {
-  console.log("Clicked insertion sort button");
+  // console.log("Begin insertion sort");
 
-  if (bars.length === 0) return;
+  if (bars.length === 0 || sorted) return;
 
   enableBtns(false, "btn-insertion-sort");
 
@@ -32,6 +32,9 @@ const insertionSort = async function () {
   }
 
   enableBtns(true, "btn-insertion-sort");
+  sorted = true;
+
+  // console.log("End insertion sort");
 };
 
 const insertionSortBtn = document.getElementById("btn-insertion-sort");
