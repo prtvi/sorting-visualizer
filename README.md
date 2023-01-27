@@ -6,4 +6,4 @@ This is simple sorting visualizer built using JavaScript. The algorithms include
 - Selection sort
 - Insertion sort
 
-Check out the live demo [here](https://prtvi.github.io/sorting-visualizer/index.html).
+Check out the live demo [here](https://prtvi.github.io/sorting-visualizer/)
