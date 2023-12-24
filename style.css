@@ -122,4 +122,9 @@ h1 {
   margin: 1%;
   padding: 1%;
   /* background-color: #0b9c0b; */
+  margin-top: 80px;
+}
+
+a:hover {
+  text-decoration: underline;
 }
